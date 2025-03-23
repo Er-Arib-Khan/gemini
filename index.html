@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini AI Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin: auto;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .response-box {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e3f2fd;
+            border-radius: 5px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Ask Gemini AI</h2>
+        <input type="text" id="userInput" placeholder="Type your question...">
+        <button onclick="askGemini()">Ask</button>
+        <div id="response" class="response-box"></div>
+    </div>
+
+    <script>
+        async function askGemini() {
+            const apiKey = "AIzaSyBZs1AlTXFk2DD0hGRiG9mwNdN82X5owF0";
+            const userInput = document.getElementById("userInput").value;
+            const responseDiv = document.getElementById("response");
+
+            if (!userInput) {
+                responseDiv.innerHTML = "<b style='color:red;'>Please enter a question!</b>";
+                return;
+            }
+
+            responseDiv.innerHTML = "Thinking... ⏳";
+
+            try {
+                const res = await fetch("https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=" + apiKey, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        contents: [{ role: "user", parts: [{ text: userInput }] }]
+                    })
+                });
+
+                const data = await res.json();
+                if (data.candidates && data.candidates.length > 0) {
+                    responseDiv.innerHTML = `<b>Response:</b> ${data.candidates[0].content.parts[0].text}`;
+                } else {
+                    responseDiv.innerHTML = "<b style='color:red;'>No response from AI.</b>";
+                }
+            } catch (error) {
+                responseDiv.innerHTML = "<b style='color:red;'>Error fetching response.</b>";
+                console.error("Error:", error);
+            }
+        }
+    </script>
+
+</body>
+</html>
