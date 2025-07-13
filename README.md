@@ -1,5 +1,3 @@
-Great, Arib! Since you've built an AI Gemini chatbot that responds after "thinking" (i.e., it analyzes or processes the question intelligently before answering), your GitHub README.md s
-
 🤖 Gemini AI Chatbot
 
 Gemini AI Chatbot is an intelligent conversational assistant that simulates human-like thinking before answering your queries. It’s designed to provide meaningful, accurate, and context-aware responses using advanced natural language processing.
